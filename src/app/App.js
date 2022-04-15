@@ -5,7 +5,11 @@ class App extends Component{
     render(){
         return(
             <div>
-                <h1>Testing</h1>
+                <nav className ="light-blue darken-4">
+                    <div className ="container">
+                        <a className="brand-logo" href="/">MERN Stack</a>
+                    </div>
+                </nav>
             </div>
         )
     }
