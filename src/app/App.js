@@ -28,6 +28,7 @@ class App extends Component{
         .then(data=>{
             M.toast({html:"Task Saved"})
             this.setState({title:"",description:""})
+            this.fetchTasks();
         })
         .catch(err=>console.log(err)) 
     }
@@ -96,9 +97,17 @@ class App extends Component{
                                     {
                                         this.state.tasks.map(task=>{
                                             return(
-                                                <tr>
+                                                <tr key={task._id}>
                                                     <td>{task.title}</td>
                                                     <td>{task.description}</td>
+                                                    <td>
+                                                        <button className="btn light-blue darken-4">
+                                                            <i className="material-icons">edit</i>
+                                                        </button>
+                                                        <button className="btn light-blue darken-4" style={{margin:"4px"}}>
+                                                            <i className="material-icons" >delete</i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             )         
                                          })
