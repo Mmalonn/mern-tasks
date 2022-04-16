@@ -2,6 +2,31 @@ import React, {Component} from "react";
 
 
 class App extends Component{
+
+    constructor(){
+        super();
+        this.state={
+            title:"",
+            description:""
+        }
+        this.handleChange=this.handleChange.bind(this);
+        this.addTask=this.addTask.bind(this);
+    }
+
+    addTask(e){
+        e.preventDefault();
+        console.log(this.state);
+
+    }
+
+    handleChange(e){
+        const {name,value}=e.target;
+        console.log(name,value)
+        this.setState({
+            [name]:value
+        })
+    }
+
     render(){
         return(
             <div>
@@ -16,14 +41,14 @@ class App extends Component{
                         <div className="col s5">
                             <div className="card">
                                 <div className="card-content">
-                                    <form>
+                                    <form onSubmit={this.addTask}>
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <input type="text" placeholder="Task Title">
+                                                <input name="title" onChange={this.handleChange} type="text" placeholder="Task Title">
                                                 </input>
                                             </div>
                                             <div className="input-field col s12">
-                                                <textarea placeholder="Task description" className="materialize-textarea">
+                                                <textarea name="description" onChange={this.handleChange} placeholder="Task description" className="materialize-textarea">
                                                 </textarea>
                                             </div>
                                             <button type="submit" className="btn light-blue darken-4">Send</button>
