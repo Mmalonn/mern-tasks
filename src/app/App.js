@@ -7,7 +7,8 @@ class App extends Component{
         super();
         this.state={
             title:"",
-            description:""
+            description:"",
+            tasks:[]
         }
         this.handleChange=this.handleChange.bind(this);
         this.addTask=this.addTask.bind(this);
@@ -24,10 +25,25 @@ class App extends Component{
             }
         })
         .then(res=>res.json())
-        .then(data=>console.log(data))
-        .catch(err=>console.log(err))
-            
-        
+        .then(data=>{
+            M.toast({html:"Task Saved"})
+            this.setState({title:"",description:""})
+        })
+        .catch(err=>console.log(err)) 
+    }
+
+    componentDidMount(){
+        this.fetchTasks();
+    }
+
+    fetchTasks(){
+        fetch("/api/tasks")
+            .then(res=>res.json())
+            .then(data=>{
+                this.setState({tasks:data});
+                console.log(this.state.tasks)
+            })
+            .catch(err=>console.log(err))
     }
 
     handleChange(e){
@@ -55,11 +71,11 @@ class App extends Component{
                                     <form onSubmit={this.addTask}>
                                         <div className="row">
                                             <div className="input-field col s12">
-                                                <input name="title" onChange={this.handleChange} type="text" placeholder="Task Title">
+                                                <input value={this.state.title} name="title" onChange={this.handleChange} type="text" placeholder="Task Title">
                                                 </input>
                                             </div>
                                             <div className="input-field col s12">
-                                                <textarea name="description" onChange={this.handleChange} placeholder="Task description" className="materialize-textarea">
+                                                <textarea value={this.state.description} name="description" onChange={this.handleChange} placeholder="Task description" className="materialize-textarea">
                                                 </textarea>
                                             </div>
                                             <button type="submit" className="btn light-blue darken-4">Send</button>
@@ -69,7 +85,26 @@ class App extends Component{
                             </div>
                         </div>
                         <div className="col s7">
-
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.tasks.map(task=>{
+                                            return(
+                                                <tr>
+                                                    <td>{task.title}</td>
+                                                    <td>{task.description}</td>
+                                                </tr>
+                                            )         
+                                         })
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
